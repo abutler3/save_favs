@@ -1,9 +1,10 @@
 <h2>I AMA Homepage</h2>
 <%= link_to "Add a link", new_link_path %>
-
 <ul class="link_list">
   <% @links.each do |link| %>
   <li><%= link_to link.title, link.url %></li>
+
 <% end %>
+<%= will_paginate @links %>
 </ul>
 
