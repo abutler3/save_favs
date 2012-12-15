@@ -1,14 +1,29 @@
-<p id="notice"><%= notice %></p>
+<h2>Comments:</h2>
+ <div>
+  <% @link.comments.each do |comment| %>
+    <p><%= comment.message %></p>
+  <% end %>
+</div>
 
-<p>
-  <b>Title:</b>
-  <%= @link.title %>
-</p>
+ <%= form_for(@comment) do |f| %>
+  <% if @comment.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@comment.errors.count, "error") %> prohibited this comment from being saved:</h2>
 
-<p>
-  <b>URL:</b>
-  <%= @link.url %>
-</p>
+      <ul>
+      <% @comment.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
 
-<%= link_to 'Edit', edit_link_path(@link) %> |
-<%= link_to 'Back', links_path %>
+  <div class="field">
+    <%= f.label :message %><br />
+    <%= f.text_area :message, :placeholder => "Add a comment" %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+  <%= f.hidden_field :link_id, :value => @link.id %>
+<% end %>
