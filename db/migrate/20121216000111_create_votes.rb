@@ -4,6 +4,8 @@ class CreateVotes < ActiveRecord::Migration
       t.integer :user_id
       t.integer :link_id
       t.boolean  :up
+
+      t.timestamps
     end
   end
 end

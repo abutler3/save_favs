@@ -3,6 +3,9 @@
 <ul class="link_list">
   <% @links.each do |link| %>
   <li><%= link_to link.title, link.url %><br>
+  <%= link_to "+", votes_path(:vote => {:link_id => link.id, :up => true}), :method => :post %>
+  <%= link_to "-", votes_path(:vote => {:link_id => link.id, :up => false}), :method => :post %><br />
+  Votes: <%= link.votes.where(:up => true).count - link.votes.where(:up => false).count %><br />
   <%= link_to "comments", link %>
   </li>
 
