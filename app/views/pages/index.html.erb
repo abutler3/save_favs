@@ -3,8 +3,17 @@
 <ul class="link_list">
   <% @links.each do |link| %>
   <li><%= link_to link.title, link.url %><br>
-  <%= link_to "+", votes_path(:vote => {:link_id => link.id, :up => true}), :method => :post %>
-  <%= link_to "-", votes_path(:vote => {:link_id => link.id, :up => false}), :method => :post %><br />
+  <% if current_user && current_user.votes.where(:link_id => link.id, :up => true).present? %>
+    *
+  <% else %>
+    <%= link_to "+", votes_path(:vote => {:link_id => link.id, :up => true}), :method => :post %>
+  <% end %>
+  <% if current_user && current_user.votes.where(:link_id => link.id, :up => true).present? %>
+    *
+  <% else %>
+    <%= link_to "-", votes_path(:vote => {:link_id => link.id, :up => false}), :method => :post %>
+  <% end %><br />
+<!--   To do this reddit changes the up vote arrow color. Since we don't have votes yet we can change the "+" to a "*" and make it not click-able.  -->
   Votes: <%= link.votes.where(:up => true).count - link.votes.where(:up => false).count %><br />
   <%= link_to "comments", link %>
   </li>

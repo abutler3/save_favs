@@ -13,11 +13,21 @@ class VotesController < ApplicationController
   end
 
   def create
-    @comment = current_user.votes.create(params[:vote])
-    # Only current_user will be allowed to make comments under their own account
-    # current_user.comments tells Rails that the foreign key in comments will have
-    # to point at current_user's primary key
+    @vote = Vote.where(:link_id => params[:vote][:link_id], :user_id => current_user.id).first
+      if @vote
+        @vote.up = params[:vote][:up]
+        @vote.save
+      else
+        @vote = current_user.votes.create(params[:vote])
+      end
     redirect_to :back
+    # @vote = current_user.votes.create(params[:vote])
+    # # Only current_user will be allowed to make comments under their own account
+    # # current_user.comments tells Rails that the foreign key in comments will have
+    # # to point at current_user's primary key
+    # puts "==================="
+    # puts @vote.errors.inspect
+    # redirect_to :back
   end
 
 end
